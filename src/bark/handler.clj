@@ -40,7 +40,8 @@
   [{:keys [uri datasource], :as _req}]
   (let [id (->> uri
                 (re-find #"\d+"))
-        {:keys [title], :as bookmark} (model/get-bookmark-by-id datasource id)
+        {:bookmarks/keys [title], :as bookmark}
+          (model/get-bookmark-by-id datasource id)
         page-title (str "Edit - " title)
         form-action-path (str "/save/" id)]
     (->> (assoc bookmark :post-url form-action-path)

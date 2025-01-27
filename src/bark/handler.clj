@@ -31,9 +31,6 @@
          \+ (recur (subs remaining 1) (str final \space))
          (recur (subs remaining 1) (str final c)))))))
 
-(comment
-  (decode-url "a%3Ab+%26+%2Bc"))
-
 (defn decode-query-str
   "takes a URL-encoed query string, returns a map with decoded values
   e.g. \"q=a%3Ab+%26+%2Bc&sort=relevance&t=week\"
@@ -146,6 +143,3 @@
   ((-> h
        decode-body-query)
     req))
-
-(comment
-  (decode-query-str "title=clojure&url=https%3A%2F%2Fclojure.org"))

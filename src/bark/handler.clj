@@ -2,45 +2,8 @@
   (:require [clojure.pprint :refer [pprint]]
             [bark.model :as model]
             [bark.view :as view]
+            [bark.parsing :as parsing]
             [clojure.string :as string]))
-
-;;; Parsing
-(defn query-str->map
-  "takes a string in the form of \"a=x&b=y\", returns the map {:a \"x\", :b \"y\"}"
-  [s]
-  (let [pairs (string/split s #"&")
-        split-pair #(string/split % #"=" -1)
-        reducing (fn [m v] (assoc m (keyword (v 0)) (v 1)))]
-    (->> pairs
-         (map split-pair)
-         (reduce reducing {}))))
-
-(defn decode-url
-  "decodes a URL-encoded string e.g. \"a%3Ab+%26+%2Bc\" -> \"a:b & +c\""
-  ([s] (if (empty? s) s (decode-url s "")))
-  ([remaining final]
-   (if (empty? remaining)
-     final
-     (let [c (first remaining)]
-       (case c
-         \% (let [decoded (-> remaining
-                              (subs 1 3)
-                              (Integer/parseInt 16)
-                              char)]
-              (recur (subs remaining 3) (str final decoded)))
-         \+ (recur (subs remaining 1) (str final \space))
-         (recur (subs remaining 1) (str final c)))))))
-
-(defn decode-query-str
-  "takes a URL-encoed query string, returns a map with decoded values
-  e.g. \"q=a%3Ab+%26+%2Bc&sort=relevance&t=week\"
-        -> {:q \"a:b & +c\", :sort \"relevance\", :t \"week\"}"
-  [s]
-  (-> s
-      query-str->map
-      (update-vals decode-url)))
-
-(query-str->map "a=sdfsf&bfs-d=1")
 
 ;;; Middleware
 
@@ -50,7 +13,7 @@
     (if (= "application/x-www-form-urlencoded" content-type)
       (-> req
           (update :body slurp)
-          (update :body decode-query-str)
+          (update :body parsing/uri-query->map)
           handler)
       (handler req))))
 

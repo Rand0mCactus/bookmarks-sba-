@@ -54,3 +54,9 @@
   ((-> handler/save-bookmark!
        decode-body-query)
     req))
+
+(defmethod routing-handler [:post "/save/:id"]
+  [req]
+  ((-> handler/update-bookmark!
+       decode-body-query)
+   req))

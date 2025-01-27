@@ -53,3 +53,12 @@
   [{:keys [datasource body], :as _req}]
   (model/insert-bookmark! datasource body)
   {:status 303, :headers {"Location" "/"}, :body ""})
+
+(defn update-bookmark!
+  "update an existing bookmark in the database, and returns to the main page"
+  [{:keys [datasource uri], {:strs [title url]} :body, :as _req}]
+  (let [id (->> uri
+                (re-find #"\d+")
+                Integer/parseInt)]
+    (model/update-bookmark-by-id! datasource id title url)
+    {:status 303, :headers {"Location" "/"}, :body ""}))

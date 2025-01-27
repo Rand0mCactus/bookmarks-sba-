@@ -12,11 +12,11 @@
 
 (defonce state nil)
 
-(defn datasource [] (:system/datasource state))
+(defn datasource [] (:bark.system/datasource state))
 
-(defn handler [] (:system/handler state))
+(defn handler [] (:bark.system/handler state))
 
-(defn server [] (:system/server state))
+(defn server [] (:bark.system/server state))
 
 (defn init-system!
   []

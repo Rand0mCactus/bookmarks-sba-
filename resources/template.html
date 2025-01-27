@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        display: flex;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        align-items: center;
+
+        width: 70%;
+        margin: 0 auto;
+      }
+
+      article {
+        /*box-sizing: border-box;*/
+
+        flex: 0 0 20%;
+
+        height: 100px;
+        height: 6em;
+        border: thin solid black;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-bottom: 20px;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      article h3 {
+        font-weight: normal;
+        font-size: 1em;
+        text-wrap: wrap;
+        /*overflow: hidden;*/
+        /*white-space: nowrap;*/
+        /*text-overflow: ellipsis;*/
+      }
+
+      a h3 {
+        font-family: sans-serif;
+        color: black;
+      }
+
+      a {
+        font-family: monospace;
+        text-decoration: none;
+        color: oklch(50% 0 0);
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        border: thin solid black;
+      }
+
+      header h1 {
+        font-weight: normal;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>bookmarks</h1>
+      <nav>
+        <ul>
+          <li><a href="/">list</a></li>
+          <li><a href="/bookmark/new">add</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="wrapper">{{body}}</div>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+<form action="{{post-url}}" method="post">
+  <label>
+    Title:
+    <input name="title" value="{{bookmarks/title}}" required />
+  </label>
+  <label>
+    URL:
+    <input
+      name="url"
+      type="url"
+      pattern="https?://*+"
+      value="{{bookmarks/url}}"
+      required
+    />
+  </label>
+  <input type="submit" value="submit" />
+</form>

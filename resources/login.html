@@ -1,0 +1,52 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href="https://example.com" />
+
+    <title>Log In</title>
+    <style>
+      * {
+        outline: 1px solid black;
+      }
+
+      html,
+      body {
+        height: 100%;
+
+        display: flex;
+        justify-content: center; /* align on main axis */
+        align-items: center; /* align on cross axis */
+      }
+
+      .login-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .textfield-container {
+          display: flex;
+          flex-direction: column;
+      }
+
+    </style>
+  </head>
+  <body>
+    <form action="/login/auth" method="post" class="login-form">
+      <div class="login-container">
+        <div class="textfield-container">
+          <label for="username">username</label>
+          <input type="text" name="username" minlength="5" required />
+        </div>
+        <div class="textfield-container">
+          <label for="password">password</label>
+          <input type="password" name="password" minlength="10" required />
+        </div>
+        <button>log in</button>
+      </div>
+    </form>
+  </body>
+</html>

@@ -8,6 +8,10 @@
   [body]
   {:status 200, :headers {}, :body body})
 
+(defn redirect-response
+  ([] (redirect-response "/"))
+  ([url] {:status 303, :headers {"Location" url}, :body ""}))
+
 (defn echo-handler
   "takes a request and returns the formatted request map as response body"
   [req]
@@ -53,10 +57,10 @@
   "save a bookmark into the database, and returns to the main page"
   [{:keys [datasource body], :as _req}]
   (model/insert-bookmark! datasource body)
-  {:status 303, :headers {"Location" "/"}, :body ""})
+  (redirect-response))
 
 (defn update-bookmark!
   "update an existing bookmark in the database, and returns to the main page"
   [{:keys [datasource id], {:strs [title url]} :body, :as _req}]
   (model/update-bookmark-by-id! datasource id title url)
-  {:status 303, :headers {"Location" "/"}, :body ""})
+  (redirect-response))

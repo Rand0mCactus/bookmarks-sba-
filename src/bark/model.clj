@@ -47,6 +47,6 @@
   [datasource id]
   (sql/get-by-id datasource :bookmarks id))
 
-(defn update-bookmark-by-id
+(defn update-bookmark-by-id!
   [datasource id title url]
   (sql/update! datasource :bookmarks {:title title, :url url} {:id id}))

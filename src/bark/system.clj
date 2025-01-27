@@ -1,8 +1,8 @@
 ;; This namespace contains code related to how the system is initialized.
 (ns bark.system
-  (:require [next.jdbc :as jdbc]
-            [ring.adapter.jetty :as jetty]
-            [bark.handler :as handler]))
+  (:require [bark.routing :as routing]
+            [next.jdbc :as jdbc]
+            [ring.adapter.jetty :as jetty]))
 
 (defn init-db
   "takes a 'db-spec' config map, returns a datasource"
@@ -19,6 +19,6 @@
   and returns them as a map"
   [{db-config :db, server-config :server}]
   (let [datasource (init-db db-config)
-        handler (handler/wrap-datasource handler/routing-handler datasource)
+        handler (routing/wrap-datasource routing/routing-handler datasource)
         server (init-server handler server-config)]
     #::{:datasource datasource, :handler handler, :server server}))

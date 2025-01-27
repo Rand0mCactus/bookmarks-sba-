@@ -45,10 +45,8 @@
 
 (defn get-bookmark-by-id
   [datasource id]
-  (first (sql/query datasource ["SELECT * FROM bookmarks WHERE id = ?" id])))
+  (sql/get-by-id datasource :bookmarks id))
 
 (defn update-bookmark-by-id
   [datasource id title url]
-  (jdbc/execute! datasource
-               ["UPDATE bookmarks SET title = ?, url = ? WHERE id = ?" title url
-                id]))
+  (sql/update! datasource :bookmarks {:title title, :url url} {:id id}))

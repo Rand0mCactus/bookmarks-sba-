@@ -24,6 +24,17 @@
         (assoc :datasource datasource)
         (handler))))
 
+(defn extract-id-from-uri
+  "extracts the first sequence of digits in the URI and associate it to :id;
+  note that it is kept a string"
+  [handler]
+  (fn [{:keys [uri], :as req}]
+    (let [id (->> uri
+                  (re-find #"\d+"))]
+      (-> req
+          (assoc :id id)
+          handler))))
+
 ;; Routing
 (defmulti routing-handler
   (fn [{:keys [request-method uri]}] [request-method
@@ -46,7 +57,9 @@
 (defmethod routing-handler [:get "/bookmark/:id"]
   edit-page-handler
   [req]
-  (handler/edit-page req))
+  ((-> handler/edit-page
+       extract-id-from-uri)
+    req))
 
 (defmethod routing-handler [:post "/save"]
   save-bookmark-handler
@@ -58,5 +71,6 @@
 (defmethod routing-handler [:post "/save/:id"]
   [req]
   ((-> handler/update-bookmark!
-       decode-body-query)
-   req))
+       decode-body-query
+       extract-id-from-uri)
+    req))

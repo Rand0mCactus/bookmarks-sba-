@@ -37,10 +37,8 @@
 
 (defn edit-page
   "returns a page for editing an existing bookmark entry"
-  [{:keys [uri datasource], :as _req}]
-  (let [id (->> uri
-                (re-find #"\d+"))
-        {:bookmarks/keys [title], :as bookmark}
+  [{:keys [datasource id], :as _req}]
+  (let [{:bookmarks/keys [title], :as bookmark}
           (model/get-bookmark-by-id datasource id)
         page-title (str "Edit - " title)
         form-action-path (str "/save/" id)]
@@ -59,9 +57,6 @@
 
 (defn update-bookmark!
   "update an existing bookmark in the database, and returns to the main page"
-  [{:keys [datasource uri], {:strs [title url]} :body, :as _req}]
-  (let [id (->> uri
-                (re-find #"\d+")
-                Integer/parseInt)]
-    (model/update-bookmark-by-id! datasource id title url)
-    {:status 303, :headers {"Location" "/"}, :body ""}))
+  [{:keys [datasource id], {:strs [title url]} :body, :as _req}]
+  (model/update-bookmark-by-id! datasource id title url)
+  {:status 303, :headers {"Location" "/"}, :body ""})

@@ -44,10 +44,12 @@
           (model/get-bookmark-by-id datasource id)
         page-title (str "Edit - " title)
         form-action-path (str "/save/" id)]
-    (->> (assoc bookmark :post-url form-action-path)
-         view/bookmark-form
-         (view/page-layout page-title)
-         ok-response)))
+    (if (nil? bookmark)
+      (echo-handler _req)
+      (->> (assoc bookmark :post-url form-action-path)
+           view/bookmark-form
+           (view/page-layout page-title)
+           ok-response))))
 
 (defn save-bookmark!
   "save a bookmark into the database, and returns to the main page"
